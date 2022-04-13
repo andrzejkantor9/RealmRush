@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //todo introduce delegates here
+[RequireComponent(typeof(BoxCollider))]
 public class ExampleScript : MonoBehaviour
 {
     //CACHE
@@ -28,13 +29,13 @@ public class ExampleScript : MonoBehaviour
 
     void OnValidate()
     {
-        SetupComponents();
-        AssertComponents();
+        SetupCache();
+        AssertCache();
     }
 
     void Awake() 
     {
-        AssertComponents();
+        AssertCache();
         Initialize();  
     }
 
@@ -49,12 +50,12 @@ public class ExampleScript : MonoBehaviour
 
 #region Initialization
 
-    void SetupComponents()
+    void SetupCache()
     {
         m_boxCollider = GetComponent<BoxCollider>();
     }
 
-    void AssertComponents()
+    void AssertCache()
     {
         UnityEngine.Assertions.Assert.IsNotNull(m_boxCollider, $"Script: {GetType().ToString()} variable m_boxCollider is null");
     }

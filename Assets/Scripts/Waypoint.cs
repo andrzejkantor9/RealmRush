@@ -7,13 +7,17 @@ using UnityEngine.EventSystems;
 
 public class Waypoint : MonoBehaviour, IPointerDownHandler
 {
+    //CACHE
     [Header("CACHE")]
     [SerializeField]
-    GameObject m_towerPrefab = null;
+    Tower m_towerPrefab = null;
 
+    //PROPERTIES
     [Space(10)] [Header("PROPERTIES")]
     [SerializeField] [Tooltip("can tower be placed here?")]
     bool m_isPlacable = false;
+    ///public getter of above
+    public bool IsPlacable{ get {return m_isPlacable;} }
 
     ///////////////////////////////////////////////
 
@@ -41,9 +45,9 @@ public class Waypoint : MonoBehaviour, IPointerDownHandler
     {
         if (m_isPlacable)
         {
-            Instantiate(m_towerPrefab, transform.position, Quaternion.identity);
-            m_isPlacable = false;
-            // Debug.Log("clicked: " + eventData.pointerCurrentRaycast.gameObject.name); 
+            bool isPlaced = m_towerPrefab.CreateTower(m_towerPrefab, transform.position);
+            // Instantiate(m_towerPrefab, transform.position, Quaternion.identity);
+            m_isPlacable = !isPlaced;
         }
     }
 
