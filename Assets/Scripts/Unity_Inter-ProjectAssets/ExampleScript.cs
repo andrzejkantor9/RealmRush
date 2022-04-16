@@ -9,7 +9,7 @@ public class ExampleScript : MonoBehaviour
     //CACHE
     [Header("CACHE")]
     [SerializeField][HideInInspector]
-    BoxCollider m_boxCollider = null;
+    BoxCollider m_boxCollider;
 
     const string FRIENDLY_TAG = "Friendly";
     
@@ -19,7 +19,7 @@ public class ExampleScript : MonoBehaviour
     float m_speed = 1f; 
     
     //STATES
-    bool m_isDead = false;
+    bool m_isDead;
 
     ///////////////////////////////////////////////
     //only engine methods without regions
@@ -66,7 +66,7 @@ public class ExampleScript : MonoBehaviour
     /// <param name="other">No params here</param>
     bool Initialize()
     {
-        string exampleName = string.Empty;
+        string exampleName;
         return true;
     }
     /// ?return? <>

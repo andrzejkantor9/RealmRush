@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    //CACHE
+    Bank m_bank;
+
     //PROPERTIES
     [Header("PROPERTIES")]
     [SerializeField]
@@ -11,19 +14,28 @@ public class Tower : MonoBehaviour
 
     /////////////////////////////////////////////////////////////
 
+#region TowerCreation
     public bool CreateTower(Tower tower, Vector3 position)
     {
-        Bank bank = FindObjectOfType<Bank>();
+        m_bank = FindObjectOfType<Bank>();
 
-        if(!bank)
+        if(!m_bank)
             return false;
-        else if (bank.currentBalance < m_cost)
+        else if (!CanAffordTower())
             return false;
 
-            
-        CustomDebug.Log($"current balance: {bank.currentBalance}");
         Instantiate(tower.gameObject, position, Quaternion.identity);
-        bank.Withdraw(m_cost);
+        m_bank.Withdraw(m_cost);
         return true;
     }
+
+    public bool CanAffordTower()
+    {
+        if(!m_bank)
+            m_bank = FindObjectOfType<Bank>();
+
+        return m_bank.currentBalance >= m_cost;
+    }
+
+#endregion
 }

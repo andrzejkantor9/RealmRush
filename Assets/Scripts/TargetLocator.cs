@@ -70,6 +70,12 @@ public class TargetLocator : MonoBehaviour
 
     void AimWeapon()
     {
+        if(!m_target)
+        {
+            EnableAttacking(false);
+            return;
+        }
+
         float TargetDistance = Vector3.Distance(transform.position, m_target.position);
         if(TargetDistance <= m_maxRange)
         {

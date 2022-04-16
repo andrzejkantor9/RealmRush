@@ -85,6 +85,9 @@ public class CustomDebug : MonoBehaviour
 
         textStyle.fontStyle = FontStyle.Bold;
         textStyle.normal.textColor = Color.white;
+
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 1000;
     }
 
     float m_lastUpdateTime = 0f;

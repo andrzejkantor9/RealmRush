@@ -11,17 +11,22 @@ public class CoordinateLabeler : MonoBehaviour
     Color m_defaultColor = Color.white;
     [SerializeField]
     Color m_blockedColor = Color.grey;
+    [SerializeField]
+    Color m_exploredColor = Color.yellow;
+    [SerializeField]
+    Color m_pathColor = new Color(1f, .5f, 0f);
 
-    TextMeshPro label = null;
-    Vector2Int coordinates = new Vector2Int();
+    TextMeshPro m_label = null;
+    Vector2Int m_coordinates = new Vector2Int();
 
-    Waypoint m_waypoint;
+    GridManager m_gridManager = null;
 
     void Awake() 
     {
 #if UNITY_EDITOR
-        label = GetComponent<TextMeshPro>();
-        m_waypoint = GetComponentInParent<Waypoint>();
+        m_gridManager = FindObjectOfType<GridManager>();
+
+        m_label = GetComponent<TextMeshPro>();
         
         DisplayCoordinates();
 #endif
@@ -34,7 +39,7 @@ public class CoordinateLabeler : MonoBehaviour
         {
             DisplayCoordinates();
             UpdateObjectName();
-            label.enabled = true;
+            m_label.enabled = true;
         }        
 
         SetLabelColor();
@@ -44,25 +49,50 @@ public class CoordinateLabeler : MonoBehaviour
 
     void SetLabelColor()
     {
-        label.color = m_waypoint.IsPlacable ? m_defaultColor : m_blockedColor;
+        if(m_gridManager == null) 
+            return;
+
+        Node node = m_gridManager.GetNode(m_coordinates);
+
+        if(node == null)
+            return;
+
+        if(!node.isWalkable)
+        {
+            m_label.color = m_blockedColor;
+        }
+        else if(node.isPath)
+        {
+            m_label.color = m_pathColor;
+        }
+        else if(node.isExplored)
+        {
+            m_label.color = m_exploredColor;
+        }
+        else
+        {
+            m_label.color = m_defaultColor;
+        }
     }
 
     void DisplayCoordinates()
     {
 #if UNITY_EDITOR
-        coordinates.x = Mathf.RoundToInt(transform.parent.position.x / UnityEditor.EditorSnapSettings.move.x);
-        coordinates.y = Mathf.RoundToInt(transform.parent.position.z / UnityEditor.EditorSnapSettings.move.z);
+        if(m_gridManager == null) return;
 
-        label.text = coordinates.x + ", " +coordinates.y;
-        label.enabled = false;
+        m_coordinates.x = Mathf.RoundToInt(transform.parent.position.x / m_gridManager.UnityGridSize);
+        m_coordinates.y = Mathf.RoundToInt(transform.parent.position.z / m_gridManager.UnityGridSize);
+
+        m_label.text = m_coordinates.x + ", " +m_coordinates.y;
+        m_label.enabled = false;
 #endif
     }
 
     void UpdateObjectName()
     {
 #if UNITY_EDITOR
-        transform.parent.name = coordinates.ToString();
-        label.color = m_waypoint.IsPlacable ? m_defaultColor : m_blockedColor;
+        transform.parent.name = m_coordinates.ToString();
+        // m_label.color = m_waypoint.IsPlacable ? m_defaultColor : m_blockedColor;
 #endif
     }
 
@@ -71,7 +101,7 @@ public class CoordinateLabeler : MonoBehaviour
 #if UNITY_EDITOR
         if(UnityEngine.InputSystem.Keyboard.current.cKey.wasPressedThisFrame)
         {
-            label.enabled = !label.IsActive();                        
+            m_label.enabled = !m_label.IsActive();                        
         }
 #endif
     }
