@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour
+public class Enemy_ObjectPool : MonoBehaviour
 {
     //CACHE
     [Header("CACHE")]

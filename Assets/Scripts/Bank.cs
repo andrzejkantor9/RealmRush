@@ -71,6 +71,7 @@ public class Bank : MonoBehaviour
 
     void ReloadScene()
     {
+        CustomDebug.Log("LoseGame");
         string currentScenePath = SceneManager.GetActiveScene().path;
         SceneManager.LoadScene(currentScenePath);
     }

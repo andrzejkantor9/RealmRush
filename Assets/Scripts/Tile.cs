@@ -79,21 +79,19 @@ public class Tile : MonoBehaviour, IPointerDownHandler
     {
         // CustomDebug.Log($"m_gridManager: {m_gridManager.ToString()}, m_pahtfinder: {m_pahtfinder.ToString()}" +
         // ", gridmanager get node: {m_gridManager.GetNode(m_coordinates).ToString()}");
-        if (m_towerPrefab && m_towerPrefab.CanAffordTower() && m_gridManager.GetNode(m_coordinates) != null &&
-            m_gridManager.GetNode(m_coordinates).isWalkable && !m_pahtfinder.WillBlockPath(m_coordinates))
+        if (m_towerPrefab && m_towerPrefab.CanAffordTower() &&
+             m_gridManager.GetNode(m_coordinates) != null &&
+             m_gridManager.GetNode(m_coordinates).isWalkable && !m_pahtfinder.WillBlockPath(m_coordinates))
         {
-            bool isPlaced = m_towerPrefab.CreateTower(m_towerPrefab, transform.position);
+            bool IsSuccessful = m_towerPrefab.CreateTower(m_towerPrefab, transform.position);
             // Instantiate(m_towerPrefab, transform.position, Quaternion.identity);
-            m_isPlacable = !isPlaced;
-            m_gridManager.BlockNode(m_coordinates);
+            if(IsSuccessful)
+            {
+                m_gridManager.BlockNode(m_coordinates);
+                m_pahtfinder.NotifyReceivers();
+            }                
         }
     }
-
-#endregion
-
-#region Coordinates
-
-
 
 #endregion
 }

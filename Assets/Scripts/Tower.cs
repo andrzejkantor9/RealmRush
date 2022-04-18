@@ -11,8 +11,15 @@ public class Tower : MonoBehaviour
     [Header("PROPERTIES")]
     [SerializeField]
     int m_cost = 75;
+    [SerializeField]
+    float m_buildDelay = 1f;
 
     /////////////////////////////////////////////////////////////
+
+    void Start()
+    {
+        StartCoroutine(Build());
+    }
 
 #region TowerCreation
     public bool CreateTower(Tower tower, Vector3 position)
@@ -35,6 +42,29 @@ public class Tower : MonoBehaviour
             m_bank = FindObjectOfType<Bank>();
 
         return m_bank.currentBalance >= m_cost;
+    }
+
+    IEnumerator Build()
+    {
+        foreach(Transform child in transform)
+        {
+            child.gameObject.SetActive(false);
+            foreach (Transform grandChild in child)
+            {
+                grandChild.gameObject.SetActive(false);
+            }
+        }
+
+        foreach(Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+            yield return new WaitForSeconds(m_buildDelay);
+
+            foreach (Transform grandChild in child)
+            {
+                grandChild.gameObject.SetActive(true);
+            }
+        }
     }
 
 #endregion

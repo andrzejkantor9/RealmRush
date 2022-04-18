@@ -3,7 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO
+//TODO add sounds
+//TODO add vin condition, lose condition
+//TODO add tower cost ui, tower build time ui
+//TODO add explosions, arrow trails
+//TODO add pause and escape menu
 public class GridManager : MonoBehaviour
 {
     //CACHE
