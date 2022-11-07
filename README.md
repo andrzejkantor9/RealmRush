@@ -2,7 +2,7 @@
 Simple tower defense game. Player starts with 250 gold, enemies try to get from starting to finish gate. Killing enemy grants 25 gold, placing turret uses 75 gold, enemy reaching finish gate removes 25 gold. 
 Enemies are object-pooled and their hit points increase by 1 each time they die and they respawn at starting gate with a delay indefinitely. When gold goes below 0 player loses and scene is reloaded. Enemies move via pathfinding path - player can place turrets to change their path, but cannot block their path.
 
-- [Image album]()
+- [Image album](https://imgur.com/a/nEcWRCY)
 - [Executable build](https://drive.google.com/file/d/1ZCls-VWJnf8OkeBVj4300zni7-AceVNE/view?usp=sharing)
 
 ### Input Information
